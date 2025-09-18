@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Navasthi — Catalog</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YJN9P39M3J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YJN9P39M3J');
+    </script>
+    <style>
+      body { font-family: system-ui, Arial; padding: 40px; }
+      header { display:flex; justify-content: flex-end; }
+      img.logo { height:48px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img class="logo" src="images/navasthi-logo.png" alt="Navasthi logo">
+    </header>
+
+    <h1>Navasthi — Catalog (placeholder)</h1>
+    <p>This is a quick test page. It will fetch your Google Sheet CSV and log it to the console.</p>
+
+    <script>
+      const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTbzfw21waF1RbqDxsmqLBuVfE9ONPIN7LCeJ56r9QAyG1pP_0QxQT5NvhDKmYCbrsWEqWXgxnmmQc/pub?gid=0&single=true&output=csv";
+      fetch(csvUrl)
+        .then(res => res.text())
+        .then(text => {
+          console.log("CSV rows:\n", text);
+          // simple parse: split lines
+          const rows = text.trim().split('\n').map(r => r.split(','));
+          console.log("Parsed rows:", rows);
+          // show how many products
+          const count = rows.length - 1;
+          document.body.insertAdjacentHTML('beforeend',
+            `<p>Products in sheet: ${count}</p>`);
+        })
+        .catch(err => {
+          console.error("Fetch error:", err);
+          document.body.insertAdjacentHTML('beforeend',
+            `<p style="color:red">Error fetching sheet. Check the publish link.</p>`);
+        });
+    </script>
+  </body>
+</html>
